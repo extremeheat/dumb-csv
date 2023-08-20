@@ -44,7 +44,6 @@ function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingH
         obj[headers[i]] = row[i]
       }
       out.push(obj)
-      console.log(obj)
     }
     return {
       toJSON: () => out,

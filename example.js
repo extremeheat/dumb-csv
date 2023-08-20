@@ -1,5 +1,6 @@
 const dumbcsv = require('dumb-csv')
-dumbcsv
+const json = dumbcsv
   .fromCSV({ data: 'hello,world', seperator: ',', headerFields: ['a', 'b'] })
   .toJSON()
+console.log(json)
 // [{"a":"hello","b":"world"}]
