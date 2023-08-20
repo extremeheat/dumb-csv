@@ -1,7 +1,7 @@
 {
-  "name": "prismarine-template",
+  "name": "dumb-csv",
   "version": "1.0.0",
-  "description": "A template repository to make it easy to create new prismarine repo",
+  "description": "Unfancy and dumb Node.js csv to json or markdown converter",
   "main": "index.js",
   "scripts": {
     "test": "mocha --reporter spec --exit",
@@ -17,14 +17,14 @@
     "prismarine",
     "template"
   ],
-  "author": "Romain Beaumont",
+  "author": "extremeheat",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/PrismarineJS/prismarine-template/issues"
   },
   "homepage": "https://github.com/PrismarineJS/prismarine-template#readme",
   "devDependencies": {
-    "prismarine-template": "file:.",
+    "dumb-csv": "file:.",
     "standard": "^17.0.0",
     "mocha": "^10.0.0"
   }
