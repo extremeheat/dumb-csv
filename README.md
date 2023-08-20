@@ -23,12 +23,13 @@ dumbcsv
 
 ## API
 
-### fromCSV(options: { data, file, separator = ',', headerFields, overrideExistingHeader }) : { toJSON: () => object, toMarkdown: () => string }
+### fromCSV(options: { data, file, separator = ',', headerFields, overrideExistingHeader, parseFloats = true }) : { toJSON: () => object, toMarkdown: () => string }
 Input `options` object:
 * `data` (string) -- a string representing the CSV data
 * OR `file` (string) -- a path to the CSV
 * `headerFields` (optional string[]) -- an array of strings containing the headers for the CSV, assuming they are not the 1st line
 * `overrideExistingHeader` (optional bool) -- if the 1st line IS a header, but your `headerFields` should override it
+* `parseFloats` (default true) -- if we should try and convert rows that are numbers into JS Number's, or if false keep everything as strings
 
 Output object :
 * `toJSON()` (function) -- calling this will return a javascript object that represents the CSV

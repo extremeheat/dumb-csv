@@ -30,4 +30,20 @@ describe('basic', () => {
       .toJSON()
     assert.deepEqual(json, [{ a: 'hello', b: '"world"' }])
   })
+
+  it('parses floats', () => {
+    const json = dumbcsv
+      .fromCSV({ data: 'hello,world,3.14159', headerFields: ['a', 'b', 'c'] })
+      .toJSON()
+    console.log(json)
+    assert.deepStrictEqual(json, [{ a: 'hello', b: 'world', c: 3.14159 }])
+  })
+
+  it('NOT parses floats', () => {
+    const json = dumbcsv
+      .fromCSV({ data: 'hello,world,3.14159', headerFields: ['a', 'b', 'c'], parseFloats: false })
+      .toJSON()
+    console.log(json)
+    assert.deepStrictEqual(json, [{ a: 'hello', b: 'world', c: '3.14159' }])
+  })
 })

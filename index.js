@@ -24,7 +24,7 @@ function split (text, delimiter) {
   return out
 }
 
-function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingHeader }) {
+function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingHeader, parseFloats = true, skipEmptyLines = true }) {
   function load (data) {
     data = data.replaceAll('\r\n', '\n')
     const lines = data.split('\n')
@@ -38,10 +38,11 @@ function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingH
     }
     const out = []
     for (const line of lines) {
+      if (skipEmptyLines && !line) continue
       const row = split(line, separator)
       const obj = {}
       for (const i in headers) {
-        obj[headers[i]] = row[i]
+        obj[headers[i]] = (parseFloats && !isNaN(row[i])) ? parseFloat(row[i]) : row[i]
       }
       out.push(obj)
     }
