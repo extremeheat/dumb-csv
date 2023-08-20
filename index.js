@@ -1,26 +1,32 @@
 const fs = require('fs')
 
+// Split csv text into an array of fields, note that two "" in a row is an escaped quote
 function split (text, delimiter) {
-  let escaping = false
-  let inQuote = false
-  let current = ''
+  text = text.replaceAll('\\"', '""')
   const out = []
-  for (const char of text) {
-    if (escaping) {
-      current += char
-      escaping = false
-    } else if (char === '\\') {
-      escaping = true
+  let field = ''
+  let inQuote = false
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i]
+    if (char === delimiter && !inQuote) {
+      out.push(field)
+      field = ''
     } else if (char === '"') {
-      inQuote = !inQuote
-    } else if (char === delimiter && !inQuote) {
-      out.push(current)
-      current = ''
+      if (inQuote) {
+        if (text[i + 1] === '"') {
+          field += '"'
+          i++
+        } else {
+          inQuote = false
+        }
+      } else {
+        inQuote = true
+      }
     } else {
-      current += char
+      field += char
     }
   }
-  out.push(current)
+  out.push(field)
   return out
 }
 

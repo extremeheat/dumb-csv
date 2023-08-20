@@ -24,9 +24,16 @@ describe('basic', () => {
     assert.deepEqual(json, [{ a: 'hello', b: 'world' }])
   })
 
-  it('escapes with quotes', () => {
+  it('escapes with backticks', () => {
     const json = dumbcsv
       .fromCSV({ data: 'hello,"\\"world\\""', separator: ',', headerFields: ['a', 'b'] })
+      .toJSON()
+    assert.deepEqual(json, [{ a: 'hello', b: '"world"' }])
+  })
+
+  it('escapes with double quotes', () => {
+    const json = dumbcsv
+      .fromCSV({ data: 'hello,"""world"""', separator: ',', headerFields: ['a', 'b'] })
       .toJSON()
     assert.deepEqual(json, [{ a: 'hello', b: '"world"' }])
   })
