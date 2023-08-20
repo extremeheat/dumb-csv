@@ -1,5 +1,8 @@
 ## History
 
+### 1.0.3
+* [fix types](https://github.com/extremeheat/dumb-csv/commit/074599a64ff5f535d99410eb01bce37fe35f6259) (thanks @extremeheat)
+
 ### 1.0.2
 * [fix more typos](https://github.com/extremeheat/dumb-csv/commit/8cf22ff3cacc973b66dffe02140ee2940d1b79da) (thanks @extremeheat)
 * [Fix doc typo](https://github.com/extremeheat/dumb-csv/commit/70719dcb89b6aaeeb085351d436c66d7cebea900) (thanks @extremeheat)
