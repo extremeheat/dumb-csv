@@ -26,7 +26,7 @@ describe('basic', () => {
 
   it('escapes with quotes', () => {
     const json = dumbcsv
-      .fromCSV({ data: 'hello,"\\"world\\""', seperator: ',', headerFields: ['a', 'b'] })
+      .fromCSV({ data: 'hello,"\\"world\\""', separator: ',', headerFields: ['a', 'b'] })
       .toJSON()
     assert.deepEqual(json, [{ a: 'hello', b: '"world"' }])
   })
