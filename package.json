@@ -1,6 +1,6 @@
 {
   "name": "dumb-csv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Unfancy and dumb Node.js csv to json or markdown converter",
   "main": "index.js",
   "scripts": {
