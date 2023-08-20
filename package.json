@@ -11,11 +11,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PrismarineJS/prismarine-template.git"
+    "url": "git+https://github.com/extremeheat/dumb-csv.git"
   },
   "keywords": [
-    "prismarine",
-    "template"
+    "csv",
+    "csv parser",
+    "json",
+    "markdown"
   ],
   "author": "extremeheat",
   "license": "MIT",
