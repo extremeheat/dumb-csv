@@ -1,5 +1,8 @@
 ## History
 
+### 1.1.0
+* [Add a new "parseFloats" option](https://github.com/extremeheat/dumb-csv/commit/22c2f4108207f1e165c6e3b63984fd296070a38b) (thanks @extremeheat)
+
 ### 1.0.3
 * [fix types](https://github.com/extremeheat/dumb-csv/commit/074599a64ff5f535d99410eb01bce37fe35f6259) (thanks @extremeheat)
 
