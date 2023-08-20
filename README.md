@@ -23,8 +23,8 @@ dumbcsv
 
 ## API
 
-### fromCSV({ data, file, separator = ',', headerFields, overrideExistingHeader }) : { toJSON: () => object, toMarkdown: () => string }
-Input object :
+### fromCSV(options: { data, file, separator = ',', headerFields, overrideExistingHeader }) : { toJSON: () => object, toMarkdown: () => string }
+Input `options` object:
 * `data` (string) -- a string representing the CSV data
 * OR `file` (string) -- a path to the CSV
 * `headerFields` (optional string[]) -- an array of strings containing the headers for the CSV, assuming they are not the 1st line
