@@ -48,7 +48,12 @@ function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingH
       const row = split(line, separator)
       const obj = {}
       for (const i in headers) {
-        obj[headers[i]] = (parseFloats && !isNaN(row[i])) ? parseFloat(row[i]) : row[i]
+        let val = row[i]
+        if (parseFloats && !isNaN(val)) {
+          const floatVal = parseFloat(val)
+          if (floatVal.toString() === row[i]) val = floatVal
+        }
+        obj[headers[i]] = val
       }
       out.push(obj)
     }
