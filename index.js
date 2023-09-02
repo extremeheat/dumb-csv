@@ -31,7 +31,45 @@ function split (text, delimiter) {
   return out
 }
 
-function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingHeader, parseFloats = true, skipEmptyLines = true, commentPrefix }) {
+// This function makes it possible to encode nested JSON or sub-delimited data in a column
+function applyTransforms (val, bys) {
+  for (const by of bys) {
+    if (by.readAs === 'json') {
+      val = JSON.parse(val)
+    } else if (by.splitBy) {
+      if (Array.isArray(val)) {
+        for (let i = 0; i < val.length; i++) {
+          val[i] = val[i].split(by.splitBy)
+          if (by.keys) {
+            const obj = {}
+            for (const i in by.keys) obj[by.keys[i]] = val[i]
+            val[i] = obj
+          }
+        }
+      } else {
+        val = val.split(by.splitBy)
+        if (by.keys) {
+          const obj = {}
+          for (const i in by.keys) obj[by.keys[i]] = val[i]
+          val = obj
+        }
+      }
+    }
+  }
+  return val
+}
+
+function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingHeader, parseFloats = true, skipEmptyLines = true, commentPrefix, applySchema }) {
+  const schema = applySchema
+  const schemaByIndex = []
+  if (schema) {
+    let i = 0
+    if (schema.items.type === 'object') {
+      for (const prop in schema.items.properties) {
+        schemaByIndex[i++] = { id: prop, ...schema.items.properties[prop] }
+      }
+    }
+  }
   function load (data) {
     data = data.replaceAll('\r\n', '\n')
     const lines = data.split('\n')
@@ -51,9 +89,23 @@ function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingH
       const obj = {}
       for (const i in headers) {
         let val = row[i]
-        if (parseFloats && !isNaN(val)) {
-          const floatVal = parseFloat(val)
-          if (floatVal.toString() === row[i]) val = floatVal
+        if (schema) {
+          const s = schemaByIndex[i]
+          if (s.types.includes('number') && s.types.includes('string')) {
+            const floatVal = parseFloat(val)
+            if (floatVal.toString() === row[i]) val = floatVal
+          } else if (s.types.includes('number')) {
+            val = parseFloat(val)
+          }
+          if (s.preprocessTransforms) {
+            val = applyTransforms(entry, s.preprocessTransforms)
+            //TODO: validate & do type coersion on new TF'ed vals
+          }
+        } else {
+          if (parseFloats && !isNaN(val)) {
+            const floatVal = parseFloat(val)
+            if (floatVal.toString() === row[i]) val = floatVal
+          }
         }
         obj[headers[i]] = val
       }
