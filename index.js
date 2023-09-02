@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { join } = require('path')
 
 // Split csv text into an array of fields, note that two "" in a row is an escaped quote
 function split (text, delimiter) {
@@ -30,14 +31,14 @@ function split (text, delimiter) {
   return out
 }
 
-function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingHeader, parseFloats = true, skipEmptyLines = true }) {
+function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingHeader, parseFloats = true, skipEmptyLines = true, commentPrefix }) {
   function load (data) {
     data = data.replaceAll('\r\n', '\n')
     const lines = data.split('\n')
     let headers = []
     if (!headerFields) {
       const head = lines.shift()
-      headers = split(head, separator)
+      headers = split(head, separator).map(e => e.replace('#', ''))
     } else {
       if (overrideExistingHeader) lines.shift()
       headers = headerFields
@@ -45,6 +46,7 @@ function fromCSV ({ data, file, separator = ',', headerFields, overrideExistingH
     const out = []
     for (const line of lines) {
       if (skipEmptyLines && !line) continue
+      if (commentPrefix && line.startsWith(commentPrefix)) continue
       const row = split(line, separator)
       const obj = {}
       for (const i in headers) {
@@ -77,6 +79,12 @@ function toMarkdown (data) {
   return out.join('\n')
 }
 
+function withDir (root) {
+  const openCSV = (fileName, options) => fromCSV({ file: join(root, fileName), separator: ',', ...options }).toJSON()
+  const openTSV = (fileName, options) => fromCSV({ file: join(root, fileName), separator: '\t', ...options }).toJSON()
+  return { openCSV, openTSV }
+}
+
 module.exports = {
-  fromCSV
+  fromCSV, withDir
 }

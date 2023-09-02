@@ -53,4 +53,8 @@ describe('basic', () => {
     console.log(json)
     assert.deepStrictEqual(json, [{ a: 'hello', b: 'world', c: '3.14159' }])
   })
+
+  it('withDir works', () => {
+    assert.deepStrictEqual(JSON.stringify(dumbcsv.withDir(__dirname).openTSV('file.tsv')), '[{"added":"1,2,3","removed":456},{"added":"hello\\tworld","removed":"a,b,c"}]')
+  })
 })
